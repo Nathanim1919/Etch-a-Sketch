@@ -21,7 +21,6 @@ range_value.addEventListener('input', function() {
     for (let index = 0; index < range_value.value; index++) {
         for (let index = 0; index < range_value.value; index++) {
             let div = document.createElement('div');
-            div.style.border = '.1px solid darkorange';
             div.classList.add('div');
             grid.style.gridTemplateRows = 'repeat(' + range_value.value + ',1fr)';
             grid.style.gridTemplateColumns = 'repeat(' + range_value.value + ',1fr)';
@@ -32,16 +31,25 @@ range_value.addEventListener('input', function() {
 });
 
 
-grid.addEventListener('mousemove', function(e) {
-    if (e.target.classList.contains('div') && !eraser.classList.contains('erase')) {
-        e.target.style.backgroundColor = color_value.value;
-    }
 
+var isMouseDown = false;
+
+grid.addEventListener('mousedown',() => isMouseDown = true);
+grid.addEventListener('mouseup',() => isMouseDown = false);
+
+grid.addEventListener('mousemove',(e) => {
+    if(isMouseDown) {
+        if (e.target.classList.contains('div') && !eraser.classList.contains('erase')) {
+            e.target.style.backgroundColor = color_value.value;
+        }
+   
+    }
 });
 
 
-grid.addEventListener('click', function(e) {
 
+
+grid.addEventListener('click', function(e) {
     if(eraser.classList.contains('erase')){
         e.target.style.backgroundColor = 'transparent';
     }
